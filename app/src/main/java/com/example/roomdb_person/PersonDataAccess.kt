@@ -16,7 +16,7 @@ interface PersonDataAccess {
 //    fun insertUser(user:PersonEntity):Completable
 
     @Insert
-    fun insertAll(vararg persons:PersonEntity)
+    fun insertAll(persons:PersonEntity):Completable
 
     @Delete
     fun delete(person:PersonEntity)

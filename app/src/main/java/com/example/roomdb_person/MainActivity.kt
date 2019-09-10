@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,12 +26,27 @@ class MainActivity : AppCompatActivity(){
 
 
         val viewModel = ViewModelProviders.of(this).get(PersonViewModel::class.java)
+        viewModel.insertpersonInfo(person)
         viewModel.getpersonInfo()
+
         val personInfo: MutableLiveData<List<PersonEntity>>? = viewModel.passToMainActivity()
 
         personInfo?.observe(this,object: Observer<List<PersonEntity>> {
             override fun onChanged(t: List<PersonEntity>?) {
                 Log.d("firsname", t!![0].firstName)
+                tv_firstName.text = t!![0].firstName
+                tv_lastName.text = t!![0].secondName
+            }
+        })
+
+        viewModel.showSuccess.observe(this, Observer {
+
+            if (it == true){
+                Toast.makeText(this,"Added user successfully",Toast.LENGTH_SHORT).show()
+                Log.d("success","Data inserted ")
+            }else{
+                Toast.makeText(this,"Something went wrong",Toast.LENGTH_SHORT).show()
+
             }
         })
     }
